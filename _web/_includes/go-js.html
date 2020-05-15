@@ -4,8 +4,23 @@
     // dash during Music Hack Day Boston 2012, and has
     // quite a bit of hackage of the bad kind in it.
 
+    /// <reference path="../files/jremix.js"  />
+
     var remixer;
+    /**
+     * @type {{
+     *   audioGain: GainNode;
+     *   play: (when: any, q: any) => any;
+     *   playNow: (q: any) => void;
+     *   addCallback: (callback: any) => void;
+     *   queue: (q: any) => void;
+     *   queueRest: (duration: any) => void;
+     *   stop: (q: any) => void;
+     *   curTime: () => number;
+     * }}
+     */
     var player;
+    /** @type {ReturnType<typeof Driver>} */
     var driver;
     var track;
     var W = 900, H = 680;
@@ -1933,6 +1948,7 @@
                 if (nextIndex < 0) {
                     return jukeboxData.tiles[0];
                 } else if (nextIndex >= jukeboxData.tiles.length) {
+                    // TODO: add a repeat option here
                     curOp = null;
                     player.stop();
                 } else {

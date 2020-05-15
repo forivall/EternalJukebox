@@ -1,4 +1,11 @@
 
+/** @typedef {ReturnType<typeof createJRemixer>} Remixer */
+/** @typedef {ReturnType<Remixer['getPlayer']>} Player */
+
+/**
+ * @param {BaseAudioContext} context
+ * @param {typeof import('jquery')} jquery
+ */
 function createJRemixer(context, jquery) {
     var $ = jquery;
 
@@ -335,10 +342,15 @@ function createJRemixer(context, jquery) {
         return 'start' in a && 'duration' in a;
     }
 
+    /**
+     * @param {object} a
+     * @returns {a is AudioBuffer}
+     */
     function isAudioBuffer(a) {
         return 'getChannelData' in a;
     }
 
+    /** @param {string} text */
     function trace(text) {
         if (false) {
             console.log(text);
@@ -348,7 +360,12 @@ function createJRemixer(context, jquery) {
     return remixer;
 }
 
+/** @typedef {[number, number, number]} Vec3 */
 
+/**
+ * @param {Vec3} v1
+ * @param {Vec3} v2
+ */
 function euclidean_distance(v1, v2) {
     var sum = 0;
     for (var i = 0; i < 3; i++) {
@@ -358,11 +375,19 @@ function euclidean_distance(v1, v2) {
     return Math.sqrt(sum);
 }
 
+/**
+ * @param {{timbre: Vec3}} s1
+ * @param {{timbre: Vec3}} s2
+ */
 function timbral_distance(s1, s2) {
     return euclidean_distance(s1.timbre, s2.timbre);
 }
 
 
+/**
+ * @param {{timbre: Vec3}} s1
+ * @param {{timbre: Vec3}} s2
+ */
 function clusterSegments(track, numClusters, fieldName, vecName) {
     var vname = vecName || 'timbre';
     var fname = fieldName || 'cluster';
@@ -388,6 +413,10 @@ function clusterSegments(track, numClusters, fieldName, vecName) {
         }
     }
 
+    /**
+     * @param {number[]} v1
+     * @param {ReadonlyArray<number>} v2
+     */
     function sumArray(v1, v2) {
         for (var i = 0; i < v1.length; i++) {
             v1[i] += v2[i];
@@ -395,6 +424,10 @@ function clusterSegments(track, numClusters, fieldName, vecName) {
         return v1;
     }
 
+    /**
+     * @param {number[]} v1
+     * @param {number} scalar
+     */
     function divArray(v1, scalar) {
         for (var i = 0; i < v1.length; i++) {
             v1[i] /= scalar

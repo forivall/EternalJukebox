@@ -1,15 +1,30 @@
 
+/**
+ * @typedef Track
+ * @property {AudioBuffer | null} buffer
+ */
+
+/**
+ * @param {BaseAudioContext} context
+ * @param {typeof import('jquery')} jquery
+ */
 function createJRemixer(context, jquery) {
     var $ = jquery;
 
     var remixer = {
 
+        /**
+         * @param {string} id
+         */
         remixTrackById: function(id, callback) {
             $.getJSON("api/info/" + id, function(data) {
                 remixer.remixTrack(data, callback)
             });
         },
 
+        /**
+         * @param {string} id
+         */
         remixTrack : function(track, canonizerData, callback) {
 
             function fetchAudio(url) {
@@ -347,6 +362,7 @@ function createJRemixer(context, jquery) {
         return 'getChannelData' in a;
     }
 
+    /** @param {string} text */
     function trace(text) {
         if (false) {
             console.log(text);
